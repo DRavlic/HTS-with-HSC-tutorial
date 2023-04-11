@@ -1,0 +1,23 @@
+{
+  "name": "smartcontractservicewithhts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "showcase.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Hedera-examples/SmartContractServiceWithHTS.git"
+  },
+  "author": "Domagoj Ravlic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hedera-examples/SmartContractServiceWithHTS/issues"
+  },
+  "homepage": "https://github.com/Hedera-examples/SmartContractServiceWithHTS#readme",
+  "dependencies": {
+    "@hashgraph/sdk": "^2.19.1",
+    "dotenv": "^16.0.3"
+  }
+}
