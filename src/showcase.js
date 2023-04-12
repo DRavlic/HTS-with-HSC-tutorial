@@ -9,6 +9,8 @@ const {
   PrivateKey,
   TokenCreateTransaction,
   TokenUpdateTransaction,
+  TokenAssociateTransaction,
+  AccountAllowanceApproveTransaction,
 } = require("@hashgraph/sdk");
 const { exit } = require("process");
 const utils = require("./utils");
@@ -70,7 +72,7 @@ async function main() {
     );
   const contractDeployRx = await utils.executeInConsole(
     contractDeployTx,
-    "Deploying Solidity contract on Hedera network...",
+    "Deploying Solidity smart contract on Hedera network...",
     client
   );
 
@@ -96,7 +98,7 @@ async function main() {
 
   /////////////////////////////////////
   // Mint new tokens via smart contract
-  const mintTx = await new ContractExecuteTransaction()
+  const mintTx = new ContractExecuteTransaction()
     .setContractId(contractId)
     .setGas(MAX_GAS)
     .setFunction(
@@ -112,7 +114,7 @@ async function main() {
 
   /////////////////////////////////////
   // Burn new tokens via smart contract
-  const burnTx = await new ContractExecuteTransaction()
+  const burnTx = new ContractExecuteTransaction()
     .setContractId(contractId)
     .setGas(MAX_GAS)
     .setFunction(
@@ -128,18 +130,33 @@ async function main() {
 
   ///////////////////////////////////////////////////////
   // Associate Alice's account with a newly created token
-  const associateTx = await new ContractExecuteTransaction()
-    .setContractId(contractId)
-    .setGas(MAX_GAS)
-    .setFunction(
-      "associateToken",
-      new ContractFunctionParameters().addAddress(aliceId.toSolidityAddress())
-    )
+  const associateTx = await new TokenAssociateTransaction()
+    .setAccountId(aliceId)
+    .setTokenIds([tokenId])
     .freezeWith(client)
     .sign(alicePrivateKey);
   await utils.executeInConsole(
     associateTx,
     "Associating Alice's account with newly created fungible token...",
+    client
+  );
+
+  ///////////////////////////////////////////////////////////
+  // Give allowance from Treasury's account to smart contract
+  const amountToTransfer = INITIAL_SUPPLY / 2;
+  const allowanceTx = await new AccountAllowanceApproveTransaction()
+    .approveTokenAllowance(
+      tokenId,
+      treasuryId,
+      contractId.toString(),
+      amountToTransfer
+    )
+    .freezeWith(client)
+    .sign(treasuryPrivateKey);
+
+  await utils.executeInConsole(
+    allowanceTx,
+    "Approving allowance for smart contract in order to succesfully transfer tokens from Treasury's account...",
     client
   );
 
@@ -153,15 +170,13 @@ async function main() {
       new ContractFunctionParameters()
         .addAddress(treasuryId.toSolidityAddress())
         .addAddress(aliceId.toSolidityAddress())
-        .addInt64(INITIAL_SUPPLY / 2)
+        .addInt64(amountToTransfer)
     )
     .freezeWith(client)
     .sign(treasuryPrivateKey);
   await utils.executeInConsole(
     transferTx,
-    `Transfering ${
-      INITIAL_SUPPLY / 2
-    } fungible tokens from Treasury's account to Alice's account...`,
+    `Transfering ${amountToTransfer} fungible tokens from Treasury's account to Alice's account...`,
     client
   );
 
