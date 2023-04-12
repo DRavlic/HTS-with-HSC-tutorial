@@ -34,17 +34,6 @@ contract HtsFungible is HederaTokenService {
         }
     }
 
-    function associateToken(address _account) external {
-        int response = HederaTokenService.associateToken(
-            _account,
-            tokenAddress
-        );
-
-        if (response != HederaResponseCodes.SUCCESS) {
-            revert("Association failed!");
-        }
-    }
-
     function transferToken(
         address _sender,
         address _recipient,
