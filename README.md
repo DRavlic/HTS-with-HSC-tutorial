@@ -2,7 +2,7 @@
 
 ## Intro
 
-Public repository which shows how to transfer, mint, burn and associate tokens from HTS using Solidity smart contracts.
+Public repository which shows how to mint, burn and transfer HTS fungible tokens using Solidity smart contracts.
 This is possible because of the [HIP-206](https://hips.hedera.com/hip/hip-206) which uses precompiled Solidity smart contract [_HederaTokenService_](https://github.com/hashgraph/hedera-smart-contracts/blob/main/contracts/hts-precompile/HederaTokenService.sol) for interacting with HTS. This repository also uses [_HederaResponseCodes_](https://github.com/hashgraph/hedera-smart-contracts/blob/main/contracts/hts-precompile/HederaResponseCodes.sol) library and [_IHederaTokenService_](https://github.com/hashgraph/hedera-smart-contracts/blob/main/contracts/hts-precompile/IHederaTokenService.sol) interface which can be found under contracts/hts-precompile/
 
 All right granted by MIT license.
