@@ -12,23 +12,15 @@ For more information about this subject, look at:
 - [Official Hedera article](https://hedera.com/blog/how-to-deploy-smart-contracts-on-hedera-part-2-a-contract-with-hedera-token-service-integration)
 - [Official Hedera tutorial video](https://www.youtube.com/watch?v=QK7FfeNHMSQ)
 
-## Environment setup
-
-Run following commands to setup you development environment
-
-1. `npm init`
-2. `npm i @hashgraph/sdk`
-3. `npm i dotenv`
-4. `npm i -g solc`
-
 ## Get started
 
+- Run `npm install` to setup your development environment
 - Log in (or register) on [Hedera Portal](https://portal.hedera.com/login) and copy your Account ID, public and private key into .env file
 - Take a look at HtsFungible.sol contract on how to integrate HTS with your Solidity smart contract
 - Implement YourSoliditySmartContract.sol with desired logic and then run:
   `solcjs --bin YourSoliditySmartContract.sol`
-- Create a new accounts on Hedera testnet by running a generate_account.js if necessary. Copy the details into .env file.
-- Run showcase.js to see how to transfer, mint, burn and associate HTS token with Solidity smart contract
+- Create a new accounts on Hedera testnet by running a `generate_account.js` if necessary. Copy the details into .env file.
+- Run `showcase.js` to see how to transfer, mint, burn and associate HTS token with Solidity smart contract
 
 # About Hedera
 
